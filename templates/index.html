@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>QR Generator</h1>
+      <p class="lede">Paste a website link and get a QR code you can scan or download.</p>
+
+      <form method="post" action="/">
+        <label for="url">Website link</label>
+        <input
+          id="url"
+          name="url"
+          type="text"
+          inputmode="url"
+          placeholder="https://example.com"
+          value="{{ url }}"
+          autocomplete="url"
+          required
+        />
+        <button type="submit">Generate QR code</button>
+      </form>
+
+      {% if error %}
+      <p class="error" role="alert">{{ error }}</p>
+      {% endif %}
+
+      {% if show_qr %}
+      <section class="result">
+        <img src="{{ url_for('qr_image', url=url) }}" alt="QR code for {{ url }}" />
+        <p class="target">{{ url }}</p>
+        <a class="download" href="{{ url_for('download_qr', url=url) }}">Download PNG</a>
+      </section>
+      {% endif %}
+    </main>
+  </body>
+</html>
